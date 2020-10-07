@@ -5,6 +5,7 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,12 +93,12 @@ public class App {
 
             }, new HandlebarsTemplateEngine());
 
-//            get("/days", (req, res) -> {
-//
-//                Map<String, String> dataMap = new HashMap<>();
-//
-//                return new ModelAndView(dataMap, ".handlebars");
-//            }, new HandlebarsTemplateEngine());
+            get("/days", (req, res) -> {
+
+                Map<String, String> dataMap = new HashMap<>();
+
+                return new ModelAndView(dataMap, "waiters.handlebars");
+            }, new HandlebarsTemplateEngine());
 
 
             post("/waiters/:username", (req, res) -> {
@@ -111,18 +112,55 @@ public class App {
                     h.execute("insert into login (name, password) values (?, ?)",
                             username,
                             password
-                            );
+                    );
                 });
 
-              //  res.redirect("/");
+                //  res.redirect("/");
 
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
+            post("/days", (req, res) -> {
+
+                // get form data values
+                String daysOfWeek = req.queryParams("daysOfWeek");
+
+
+                List<Days> daysOfweek = jdbi.withHandle(h -> {
+
+                    if (daysOfWeek == null) {
+                        return new ArrayList<>();
+                    }
+
+                    if (!daysOfWeek.equals("")
+                    ) {
+                        return h.createQuery(
+                                "select * from Days where Days_In_A_Week = false "
+                        )
+                                .bind(0, daysOfWeek)
+                                .mapToBean(Days.class)
+                                .list();
+                    }
+                    List<Days> DayList = h.createQuery(
+                            "select * from Days where Days_In_A_Week = false "
+                    )
+                            .bind(0, daysOfWeek)
+                            .mapToBean(Days.class)
+                            .list();
+
+                    return DayList;
+
+                });
+                Map<String, Object> dataMap = new HashMap<>();
+
+                return new ModelAndView(dataMap, "waiters.handlebars");
+
+            }, new HandlebarsTemplateEngine());
+
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
 
     }
 
