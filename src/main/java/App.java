@@ -4,9 +4,9 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -70,11 +70,29 @@ public class App {
             get("/waiters/:username", (req, res) -> {
                 waiters.setUser(req.params("username"));
                 waiters.getUser();
+
+
                 Map<String, String> dataMap = new HashMap<>();
 
                 return new ModelAndView(dataMap, "login.handlebars");
             }, new HandlebarsTemplateEngine());
 
+            get("/", (req, res) -> {
+                List<Login> people = jdbi.withHandle((h) -> {
+                    List<Login> userLogin = h.createQuery("select username, password from login")
+                            .mapToBean(Login.class)
+                            .list();
+                    return userLogin;
+                });
+                Map<String, Object> map = new HashMap<>();
+                map.put("username", people);
+                map.put("password", people);
+
+
+
+                return new ModelAndView(map, "login.handlebars");
+
+            }, new HandlebarsTemplateEngine());
 
 //            get("/days", (req, res) -> {
 //
@@ -84,12 +102,24 @@ public class App {
 //            }, new HandlebarsTemplateEngine());
 
 
-//            post("/waiters/:username", (req, res) -> {
-//
-//                Map<String, String> dataMap = new HashMap<>();
-//
-//                return new ModelAndView(dataMap, "booking.handlebars");
-//            }, new HandlebarsTemplateEngine());
+            post("/waiters/:username", (req, res) -> {
+
+                Map<String, String> dataMap = new HashMap<>();
+                String username = req.queryParams("username");
+                String password = req.queryParams("password");
+
+
+                jdbi.useHandle(h -> {
+                    h.execute("insert into login (name, password) values (?, ?)",
+                            username,
+                            password
+                            );
+                });
+
+                res.redirect("/");
+
+                return new ModelAndView(dataMap, "login.handlebars");
+            }, new HandlebarsTemplateEngine());
 
         } catch (Exception ex) {
             ex.printStackTrace();

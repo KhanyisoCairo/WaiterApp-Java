@@ -18,10 +18,9 @@ public class Waiters {
     }
 
     public void setUser(String name) {
-
-        connection.withHandle(handle -> handle.createQuery("INSERT INTO UserName (name) values (?)")
-                .bind(name,1)
-        );
+//        connection.withHandle(handle -> handle.createQuery("INSERT INTO UserName (name) values (?)")
+//                .bind(name,1)
+//        );
         //        try {
 //            PreparedStatement ps = connection.prepareStatement("INSERT INTO UserName (name) values (?)");
 //            ps.setString(1, name);
@@ -32,7 +31,8 @@ public class Waiters {
 
     }
     public Map<String, Integer> getUser() {
-        connection.useHandle(handle -> handle.execute("SELECT * FROM  UserName"));
+//        connection.useHandle(handle -> handle.execute("SELECT * FROM  UserName")
+//        );
 //        try {
 //            PreparedStatement ps = connection.prepareStatement("SELECT * FROM  UserName");
 //            ResultSet rs =ps.executeQuery();
@@ -48,6 +48,11 @@ public class Waiters {
 
         return waiters;
     }
+ public  void addUser(String name){
+     connection.withHandle(handle -> handle.createQuery("INSERT INTO UserName (name) values (?)")
+             .bind(name,1)
+     );
 
+ }
 
 }
