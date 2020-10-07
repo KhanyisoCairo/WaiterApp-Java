@@ -63,7 +63,7 @@ public class App {
             get("/", (req, res) -> {
 
                 Map<String, String> dataMap = new HashMap<>();
-                res.redirect("login.handlebars");
+                res.redirect("/Login");
                 return new ModelAndView(dataMap, "login.handlebars");
             }, new HandlebarsTemplateEngine());
 
@@ -73,11 +73,10 @@ public class App {
 
 
                 Map<String, String> dataMap = new HashMap<>();
-
-                return new ModelAndView(dataMap, "login.handlebars");
+                return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
-            get("/", (req, res) -> {
+            get("/Login", (req, res) -> {
                 List<Login> people = jdbi.withHandle((h) -> {
                     List<Login> userLogin = h.createQuery("select username, password from login")
                             .mapToBean(Login.class)
@@ -88,9 +87,8 @@ public class App {
                 map.put("username", people);
                 map.put("password", people);
 
-
-
-                return new ModelAndView(map, "login.handlebars");
+//                res.redirect("/");
+                return new ModelAndView(map, "waiters.handlebars");
 
             }, new HandlebarsTemplateEngine());
 
@@ -116,9 +114,9 @@ public class App {
                             );
                 });
 
-                res.redirect("/");
+              //  res.redirect("/");
 
-                return new ModelAndView(dataMap, "login.handlebars");
+                return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
         } catch (Exception ex) {
