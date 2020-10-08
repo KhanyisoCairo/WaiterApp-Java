@@ -22,6 +22,7 @@ public class Days {
                 .bind(daysOfWeek, "Saturday")
                 .bind(daysOfWeek, "Sunday")
         );
+
     }
 
     public void getDaysOfWeek() {
