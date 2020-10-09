@@ -3,3 +3,4 @@ CREATE TABLE login(
     username TEXT,
     password INT
 );
+

@@ -61,11 +61,18 @@ public class App {
             staticFileLocation("/templates");
             port(getHerokuAssignedPort());
             Waiters waiters = new Waiters(jdbi);
+            Admin admin = new Admin(jdbi);
             get("/", (req, res) -> {
 
                 Map<String, String> dataMap = new HashMap<>();
-                res.redirect("/Login");
+              //  res.redirect("/Login");
                 return new ModelAndView(dataMap, "login.handlebars");
+            }, new HandlebarsTemplateEngine());
+            get("/register", (req, res) -> {
+
+                Map<String, String> dataMap = new HashMap<>();
+                //  res.redirect("/Login");
+                return new ModelAndView(dataMap, "register.handlebars");
             }, new HandlebarsTemplateEngine());
 
             get("/waiters/:username", (req, res) -> {
@@ -75,6 +82,14 @@ public class App {
 
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "waiters.handlebars");
+            }, new HandlebarsTemplateEngine());
+            get("/admin", (req, res) -> {
+                admin.setAdmin(req.params("username"));
+                admin.getAdmin();
+
+
+                Map<String, String> dataMap = new HashMap<>();
+                return new ModelAndView(dataMap, "login.handlebars");
             }, new HandlebarsTemplateEngine());
 
             get("/Login", (req, res) -> {
