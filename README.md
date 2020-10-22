@@ -4,20 +4,20 @@
 
 ```java
 
-interface Person {
+interface waiter.interfaces.Person {
     String fName, lName, username, id, email, password;
-    List<Day> days;
+    List<waiter.interfaces.Day> days;
 }
 
 
-interface Day {
+interface waiter.interfaces.Day {
     String day;
-    List<Person> waiters;
+    List<waiter.interfaces.Person> waiters;
 }
 
 
-interface Schedule {
-    List<Days> weekday;
+interface waiter.interfaces.Schedule {
+    List<waiter.days.Days> weekday;
 
 }
 

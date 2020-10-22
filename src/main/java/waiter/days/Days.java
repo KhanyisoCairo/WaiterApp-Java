@@ -1,3 +1,5 @@
+package waiter.days;
+
 import org.jdbi.v3.core.Jdbi;
 
 import java.util.HashMap;
@@ -13,7 +15,7 @@ public class Days {
     }
 
     public void setDaysOfWeek(String daysOfWeek) {
-        connection.withHandle(handle -> handle.createQuery("INSERT INTO Days (Days_In_A_Week) values (?)")
+        connection.withHandle(handle -> handle.createQuery("INSERT INTO waiter.days.Days (Days_In_A_Week) values (?)")
                 .bind(daysOfWeek, "Monday")
                 .bind(daysOfWeek, "Tuesday")
                 .bind(daysOfWeek, "Wednesday")
@@ -26,7 +28,7 @@ public class Days {
     }
 
     public void getDaysOfWeek() {
-        connection.useHandle(handle -> handle.execute("SELECT * FROM  Days")
+        connection.useHandle(handle -> handle.execute("SELECT * FROM  waiter.days.Days")
         );
     }
 

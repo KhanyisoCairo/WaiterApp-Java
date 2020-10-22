@@ -35,19 +35,19 @@
 <div class="container">
     <center>
         <div class="col-3">
-            <form class="form-signin">
+            <form class="form-signin" action="/reg" method="POST">
                 <h1 class="h3 mb-3 font-weight-normal">Register</h1>
                 <label for="" class="sr-only">Name</label>
-                <input type="text" id="inputName" class="form-control" placeholder="Name" required autofocus>
+                <input type="text" name="firstName" id="inputName" class="form-control" placeholder="Name" required autofocus>
                 <br>
                 <label for="LastName" class="sr-only">Last Name</label>
-                <input type="text" id="inputPassword" class="form-control" placeholder="LastName" required>
+                <input type="text" name="lastName" id="inputLastName" class="form-control" placeholder="LastName" required>
                 <br>
                 <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
                 <br>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <label for="inputPassword" class="sr-only">Again Password</label>
+                <input type="password" name="reEnterPassword" id="inputPassword" class="form-control" placeholder="Password" required>
                 <br>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
                 <p class="mt-5 mb-3 text-muted">&copy; 2020</p>

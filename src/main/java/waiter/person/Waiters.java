@@ -1,3 +1,5 @@
+package waiter.person;
+
 import org.jdbi.v3.core.Jdbi;
 
 import java.sql.Connection;
