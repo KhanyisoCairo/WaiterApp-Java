@@ -2,8 +2,6 @@ create table schedule(
     user_id int,
     day_id int
 );
-
-
 create table weekday(
     name text
 );

@@ -6,14 +6,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
-public class Login {
-    public String username;
-    public String password;
+public class DataBaseConnection {
 
-    public Login(String username, String password) throws URISyntaxException, SQLException {
-    }
-
-    static Jdbi getDatabaseConnection(String defualtJdbcUrl) throws URISyntaxException, SQLException {
+   public static Jdbi getDatabaseConnection(String defualtJdbcUrl) throws URISyntaxException, SQLException {
         ProcessBuilder processBuilder = new ProcessBuilder();
         String database_url = processBuilder.environment().get("DATABASE_URL");
         String local = processBuilder.environment().get("LOCAL");
@@ -38,25 +33,5 @@ public class Login {
 
         return Jdbi.create(defualtJdbcUrl);
 
-    }
-
-    Jdbi jdbi = getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=khanyiso&password=cairo123");
-
-
-    public String getPassword() {
-        jdbi.withHandle(handle -> handle.createUpdate(""));
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

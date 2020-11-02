@@ -66,14 +66,18 @@
             <div class="row">
                 <div class="col-12">
                     <div class="justify-content-center text-center">
-
-
-
+                        {{#each days}}
+                            {{this.daysInAWeek}}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" style="color: rgb(10, 134, 156);" for="inlineCheckbox1">Monday</label>
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="{{daysInAWeek}}">
+                            <label class="form-check-label" style="color: rgb(10, 134, 156);" for="inlineCheckbox1">{{daysInAWeek}}</label>
                         </div>
-                            <div class="form-check form-check-inline">
+                        {{/each}}
+
+
+
+
+                            {{!-- <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1">
                             <label class="form-check-label" style="color: rgb(10, 134, 156);" for="inlineCheckbox2">Tuseday</label>
                         </div>
@@ -97,7 +101,8 @@
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox7" value="option1">
                             <label class="form-check-label" style="color: rgb(10, 134, 156);" for="inlineCheckbox7">Sunday</label>
                         </div>
-                    </div>
+                        --}}
+                    </div> 
 
                 </div>
             </div>
