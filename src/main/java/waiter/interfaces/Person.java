@@ -10,6 +10,4 @@ public interface Person {
     String username = "";
     String password = "";
     List<Days> days = new ArrayList<>();
-
-
 }

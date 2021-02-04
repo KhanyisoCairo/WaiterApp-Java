@@ -6,5 +6,4 @@ import java.util.*;
 
 public interface Schedule {
     List<Days> weekday =  new ArrayList<>();
-
 }

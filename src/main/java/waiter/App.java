@@ -61,7 +61,7 @@ public class App {
     public static void main(String[] args) {
 
         try {
-            Jdbi jdbi = getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=khanyiso&password=cairo123");
+            Jdbi jdbi = getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
 
             staticFileLocation("/public");
             staticFileLocation("/templates");
@@ -74,22 +74,19 @@ public class App {
 
                 Map<String, String> dataMap = new HashMap<>();
                 //  res.redirect("/waiter.Login");
-                String firstName = req.queryParams("firstName");
-                String password = req.queryParams("password");
-                System.out.println(req + " body");
-                System.out.println(firstName + " " + password);
-                System.out.println("line 78");
+//
                 return new ModelAndView(dataMap, "login.handlebars");
             }, new HandlebarsTemplateEngine());
 
 
             get("/register", (req, res) -> {
-//                res.redirect("register.handlebars");
-//                return null;
-//                System.out.println(req.queryParams("firstName"));
-//                System.out.println(req.queryParams("LastName"));
-//                System.out.println(req.queryParams("password"));
-//                System.out.println(req.queryParams("reEnterPassword"));
+                String firstName = req.queryParams("firstName");
+                String lastName = req.queryParams("lastName");
+                String Password = req.queryParams("password");
+                String ConfirmPassword = req.queryParams("ConfirmPassword");
+
+
+
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "register.handlebars");
             }, new HandlebarsTemplateEngine());
@@ -138,10 +135,7 @@ public class App {
                 map.put("username", people);
                 map.put("password", people);
 
-//
-//                if ("username" == "username" && "password" == "password") {
-//                    res.redirect("/waiters" + (waiters.getUser()));
-//                }
+
                 System.out.println(map);
 //                res.redirect("/");
                 return new ModelAndView(map, "waiters.handlebars");
@@ -252,3 +246,21 @@ public class App {
     }
 
 }
+   // String firstName = req.queryParams("firstName");
+//                String password = req.queryParams("password");
+//                System.out.println(req + " body");
+//                System.out.println(firstName + " " + password);
+//                System.out.println("line 78");
+//                res.redirect("register.handlebars");
+//                return null;
+
+
+//                System.out.println(req.queryParams("firstName"));
+//                System.out.println(req.queryParams("LastName"));
+//                System.out.println(req.queryParams("password"));
+//                System.out.println(req.queryParams("reEnterPassword"));
+
+//
+//                if ("username" == "username" && "password" == "password") {
+//                    res.redirect("/waiters" + (waiters.getUser()));
+//                }

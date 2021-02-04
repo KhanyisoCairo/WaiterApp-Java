@@ -3,6 +3,7 @@ package waiter.days;
 import org.jdbi.v3.core.Jdbi;
 import waiter.DataBaseConnection;
 import waiter.interfaces.Day;
+import waiter.interfaces.Person;
 import waiter.maps.DaysMap;
 
 import java.net.URISyntaxException;
@@ -11,12 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Days {
+public class Days implements Day, Person {
     Map<String, Integer> Days = new HashMap<>();
     Jdbi jdbi;
-
     public void setDaysOfWeek(String daysOfWeek) throws URISyntaxException, SQLException {
-        jdbi = DataBaseConnection.getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=khanyiso&password=cairo123");
+        jdbi = DataBaseConnection.getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
         jdbi.withHandle(handle -> handle.createQuery("INSERT INTO waiter.days.Days (Days_In_A_Week) values (?)")
                 .bind(daysOfWeek, "Monday")
                 .bind(daysOfWeek, "Tuesday")

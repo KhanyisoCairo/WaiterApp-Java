@@ -1,13 +1,14 @@
 package waiter.admin;
 
 import org.jdbi.v3.core.Jdbi;
+import waiter.interfaces.Schedule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Admin  {
+public class Admin implements Schedule {
     Map<String, Integer> admin = new HashMap<>();
     private Jdbi connection;
 
@@ -20,10 +21,8 @@ public class Admin  {
         );
     }
     public Map<String, Integer> getAdmin(){
-
         connection.useHandle(handle -> handle.execute("SELECT * FROM  UserName")
         );
-
         return admin;
     }
 }

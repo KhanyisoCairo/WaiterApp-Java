@@ -1,3 +1,10 @@
-/home/khanyiso/IdeaProjects/WaiterApp-Java/src/main/java/Admin.java
-/home/khanyiso/IdeaProjects/WaiterApp-Java/src/main/java/App.java
-/home/khanyiso/IdeaProjects/WaiterApp-Java/src/main/java/Waiters.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/admin/Admin.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/interfaces/Day.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/Login.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/days/Days.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/interfaces/Person.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/maps/DaysMap.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/DataBaseConnection.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/person/Waiters.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/interfaces/Schedule.java
+/home/codex/IdeaProjects/WaiterApp-Java/src/main/java/waiter/App.java

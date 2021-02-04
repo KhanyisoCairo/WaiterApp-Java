@@ -1,3 +1,10 @@
-App.class
-Waiters.class
-Admin.class
+waiter/person/Waiters.class
+waiter/DataBaseConnection.class
+waiter/admin/Admin.class
+waiter/interfaces/Person.class
+waiter/interfaces/Schedule.class
+waiter/App.class
+waiter/interfaces/Day.class
+waiter/Login.class
+waiter/days/Days.class
+waiter/maps/DaysMap.class

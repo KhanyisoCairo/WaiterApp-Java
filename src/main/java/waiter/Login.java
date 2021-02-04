@@ -40,7 +40,7 @@ public class Login {
 
     }
 
-    Jdbi jdbi = getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=khanyiso&password=cairo123");
+    Jdbi jdbi = getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
 
 
     public String getPassword() {
