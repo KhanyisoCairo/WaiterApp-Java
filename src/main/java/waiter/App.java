@@ -5,7 +5,7 @@ import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import waiter.admin.Admin;
 import waiter.days.Days;
-import waiter.maps.DaysMap;
+import waiter.person.Register.Register;
 import waiter.person.Waiters;
 
 import java.net.URI;
@@ -85,8 +85,12 @@ public class App {
                 String Password = req.queryParams("password");
                 String ConfirmPassword = req.queryParams("ConfirmPassword");
 
+                Register register = new Register();
 
-
+                register.setFirstName(firstName);
+                register.setLastName(lastName);
+                register.setPassword(Password);
+                register.setConfirmPassword(ConfirmPassword);
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "register.handlebars");
             }, new HandlebarsTemplateEngine());
