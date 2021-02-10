@@ -1,10 +1,14 @@
 package waiter;
 
+import dao.DaysDao;
+import daoImple.DaysImple;
+import model.dao.Day;
 import org.jdbi.v3.core.Jdbi;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import waiter.admin.Admin;
 import waiter.days.Days;
+import waiter.maps.DaysMap;
 import waiter.person.Register.Register;
 import waiter.person.Waiters;
 
@@ -19,6 +23,8 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class App {
+private static DaysDao daysDao;
+
 
 
     static int getHerokuAssignedPort() {
@@ -62,7 +68,7 @@ public class App {
 
         try {
             Jdbi jdbi = getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
-
+            daysDao = new DaysImple(jdbi);
             staticFileLocation("/public");
             staticFileLocation("/templates");
             port(getHerokuAssignedPort());
@@ -87,16 +93,35 @@ public class App {
 
                 Register register = new Register();
 
-                register.setFirstName(firstName);
-                register.setLastName(lastName);
-                register.setPassword(Password);
-                register.setConfirmPassword(ConfirmPassword);
+//                register.setFirstName(firstName);
+//                register.setLastName(lastName);
+//                register.setPassword(Password);
+//                register.setConfirmPassword(ConfirmPassword);
+
+                register.getFirstName();
+                register.getLastname();
+                register.getPassword();
+                register.getConfirmPassword();
+
+//                jdbi.useHandle(h -> {
+//                    h.execute("insert into UserName (firstName, lastName,Password,ConfirmPassword) values (?, ?,?,?)",
+//                            firstName,
+//                            lastName,
+//                            Password,
+//                            ConfirmPassword
+//                    );
+//                    if (Password == null) {
+//                        res.body("enter password");
+//                    } else if (Password != ConfirmPassword) {
+//                        res.body("password don't match");
+//                    }
+//                });
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "register.handlebars");
             }, new HandlebarsTemplateEngine());
 
             get("/login", (req, res) -> {
-//
+                System.out.println("check");
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
@@ -104,6 +129,8 @@ public class App {
             get("/signIn", (req, res) -> {
                 login.getPassword();
                 login.getUsername();
+
+
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
@@ -116,80 +143,12 @@ public class App {
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
-            get("/admin", (req, res) -> {
-                admin.setAdmin(req.params("username"));
-                admin.getAdmin();
-
-//                if ("username" == "Admin" && "password" == "admin") {
-//                    res.redirect("/admin");
-//                }
-
-                Map<String, String> dataMap = new HashMap<>();
-                return new ModelAndView(dataMap, "admin.handlebars");
-            }, new HandlebarsTemplateEngine());
-
-            get("/waiter.Login", (req, res) -> {
-                List<Login> people = jdbi.withHandle((h) -> {
-                    List<Login> userLogin = h.createQuery("select username, password from login")
-                            .mapToBean(Login.class)
-                            .list();
-                    return userLogin;
-                });
-                Map<String, Object> map = new HashMap<>();
-                map.put("username", people);
-                map.put("password", people);
-
-
-                System.out.println(map);
-//                res.redirect("/");
-                return new ModelAndView(map, "waiters.handlebars");
-
-            }, new HandlebarsTemplateEngine());
-
-            get("/add_shift", (req, res) -> {
-                Map<String, Object> dataMap = new HashMap<>();
-                Days days1 = new Days();
-                System.out.println(days1.getDaysOfWeek() + "line 153");
-                dataMap.put("days", days1.getDaysOfWeek());
-//                for (DaysMap day: days1.getDaysOfWeek()){
-//                    System.out.println(day.getDaysInAWeek());
-//                }
-                return new ModelAndView(dataMap, "waiters.handlebars");
-            }, new HandlebarsTemplateEngine());
-
-//            get("/add_shift", (req, res) -> {
-//                days.setDaysOfWeek(req.queryParams("daysofweek"));
-//                days.getDaysOfWeek();
-//
-//                Map<String, String> dataMap = new HashMap<>();
-//
-//                return new ModelAndView(dataMap, "waiters.handlebars");
-//            }, new HandlebarsTemplateEngine());
-
-
-            post("/reg", (req, res) -> {
-                res.redirect("/");
-                return null;
-            });
-
-            post("/add_shift", (req, res) -> {
-                res.redirect("/add_shift");
-                return null;
-            });
-
-            post("/signIn", (req, res) -> {
-                System.out.println(req.queryParams("firstName"));
-                System.out.println(req.queryParams("password"));
-                res.redirect("/waiter.Login");
-                return null;
-            });
 
             post("/waiters/:username", (req, res) -> {
-
+// This is to get the details for the user to be able  to login and select working days
                 Map<String, String> dataMap = new HashMap<>();
                 String username = req.queryParams("username");
                 String password = req.queryParams("password");
-
 
                 jdbi.useHandle(h -> {
                     h.execute("insert into login (name, password) values (?, ?)",
@@ -207,12 +166,80 @@ public class App {
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
+            get("/admin", (req, res) -> {
+                admin.setAdmin(req.params("username"));
+                admin.getAdmin();
+
+                Map<String, String> dataMap = new HashMap<>();
+                return new ModelAndView(dataMap, "admin.handlebars");
+            }, new HandlebarsTemplateEngine());
+
+            get("/waiter.Login", (req, res) -> {
+//                List<Login> people = jdbi.withHandle((h) -> {
+//                    List<Login> userLogin = h.createQuery("select username, password from login")
+//                            .mapToBean(Login.class)
+//                            .list();
+//                    return userLogin;
+//                });
+                Map<String, Object> map = new HashMap<>();
+                List<Day> daysList = daysDao.getDays();
+
+                System.out.println(daysList);
+
+                map.put("daysList", daysList);
+//                map.put("password", people);
+
+
+                System.out.println(map);
+//                res.redirect("/");
+                return new ModelAndView(map, "waiters.handlebars");
+
+            }, new HandlebarsTemplateEngine());
+
+
+//            get("/add_shift", (req, res) -> {
+//                Map<String, String> dataMap = new HashMap<>();
+//                Days days1 = new Days();
+//                days.setDaysOfWeek(req.queryParams("daysofweek"));
+//                days.getDaysOfWeek();
+//                for (DaysMap day: days1.getDaysOfWeek()){
+//                    System.out.println(day.getDaysInAWeek());
+//                }
+//
+////                dataMap.put("days", days1.getDaysOfWeek());
+//                return new ModelAndView(dataMap, "waiters.handlebars");
+//            }, new HandlebarsTemplateEngine());
+
+//
+//            post("/register", (req, res) -> {
+//                res.redirect("/");
+//                return null;
+//            });
+
+//            post("/add_shift", (req, res) -> {
+//                res.redirect("/add_shift");
+//                return null;
+//            });
+
+//            post("/signIn", (req, res) -> {
+//                System.out.println(req.queryParams("firstName"));
+//                System.out.println(req.queryParams("password"));
+//                res.redirect("/waiter.Login");
+//                return null;
+//            });
+
+
+
             post("/days", (req, res) -> {
 
                 // get form data values
+//
+//                Days getDays =  new Days();
+//
+//                days.setDaysOfWeek();
+//                days.getDaysOfWeek();
                 String daysOfWeek = req.queryParams("daysOfWeek");
                 List<Days> daysOfweek = jdbi.withHandle(h -> {
-
                     if (daysOfWeek == null) {
                         return new ArrayList<>();
                     }
@@ -267,4 +294,8 @@ public class App {
 //
 //                if ("username" == "username" && "password" == "password") {
 //                    res.redirect("/waiters" + (waiters.getUser()));
+//                }
+
+//                if ("username" == "Admin" && "password" == "admin") {
+//                    res.redirect("/admin");
 //                }

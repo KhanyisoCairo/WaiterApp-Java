@@ -19,28 +19,28 @@ public class RegisterWaiter {
     }
 }
 class RegisterUser {
-    public void setuserToDatabase(String firstname, String lastName,String password,String confirmPassword) throws URISyntaxException, SQLException {
+    public void setuserToDatabase(String firstName, String lastName,String password,String confirmPassword) throws URISyntaxException, SQLException {
         Register register = new Register();
-        register.setFirstName("sbu");
-        register.setLastName("nkosi");
-        register.setPassword("");
-        register.setConfirmPassword("ahbgdw");
+        register.setFirstName("khanyiso");
+        register.setLastName("yezo");
+        register.setPassword("codex");
+        register.setConfirmPassword("codex");
+
         Jdbi jdbi;
         jdbi = DataBaseConnection.getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
         jdbi.withHandle(handle -> handle.createQuery("INSERT INTO UserName (firstName,lastName,password,confirmPassword) values (?,?,?,?)")
-                .bind(firstname,register.getFirstName())
+                .bind(firstName,register.getFirstName())
                 .bind(lastName,register.getLastname())
                 .bind(password,register.getPassword())
                 .bind(confirmPassword,register.getConfirmPassword())
         );
-
     }
     public static void main(String[] args) throws URISyntaxException, SQLException {
         Register register = new Register();
-        register.setFirstName("sbu");
-        register.setLastName("nkosi");
-        register.setPassword("");
-        register.setConfirmPassword("ahbgdw");
+        register.setFirstName("Khanyiso");
+        register.setLastName("yezo");
+        register.setPassword("codex");
+        register.setConfirmPassword("codex");
         RegisterUser registerUser =  new RegisterUser();
         registerUser.setuserToDatabase(register.getFirstName(),register.getLastname(),register.getPassword(),register.getConfirmPassword());
 

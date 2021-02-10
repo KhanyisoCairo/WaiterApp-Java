@@ -30,11 +30,15 @@ public class Days implements Day, Person {
     }
 
     public List<DaysMap> getDaysOfWeek() throws URISyntaxException, SQLException {
-        jdbi = DataBaseConnection.getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=khanyiso&password=cairo123");
+        jdbi = DataBaseConnection.getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
 //        return jdbi.useHandle(handle -> handle.execute("SELECT * FROM  DAYS"));
         List<DaysMap> days = jdbi.withHandle(handle -> handle.createQuery("SELECT * FROM  DAYS").mapToBean(DaysMap.class).list());
         return days;
     }
 
 
+//    @Override
+//    public void setDaysOfWeek() {
+//
+//    }
 }
