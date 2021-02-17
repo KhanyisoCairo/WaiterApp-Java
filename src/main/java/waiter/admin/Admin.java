@@ -10,18 +10,18 @@ import java.util.Map;
 
 public class Admin implements Schedule {
     Map<String, Integer> admin = new HashMap<>();
-    private Jdbi connection;
+    private Jdbi jdbi;
 
     public Admin(Jdbi connection) {
-        this.connection = connection;
+        this.jdbi = connection;
     }
     public void setAdmin(String name){
-        connection.withHandle(handle -> handle.createQuery("INSERT INTO UserName (name) values (?)")
+        jdbi.withHandle(handle -> handle.createQuery("INSERT INTO users (first_name) values (?)")
                 .bind(name,1)
         );
     }
     public Map<String, Integer> getAdmin(){
-        connection.useHandle(handle -> handle.execute("SELECT * FROM  UserName")
+        jdbi.useHandle(handle -> handle.execute("SELECT * FROM  users")
         );
         return admin;
     }

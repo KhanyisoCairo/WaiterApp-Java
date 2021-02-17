@@ -13,17 +13,31 @@ import java.util.Map;
 
 public class Waiters {
     Map<String, Integer> waiters = new HashMap<>();
-    private Jdbi connection;
+    private Jdbi jdbi;
+
+    public  Waiters(){};
 
     public Waiters(Jdbi connection) {
-        this.connection = connection;
+        this.jdbi = connection;
     }
 
     public void setUser(String name) {
-        connection.withHandle(handle -> handle.createQuery("INSERT INTO UserName (name) values (?)")
+        jdbi.withHandle(handle -> handle.createQuery("INSERT INTO UserName (firstName) values (?)")
                 .bind(name,1)
         );
-        //        try {
+    }
+    public Map<String, Integer> getUser() {
+        jdbi.useHandle(handle -> handle.execute("SELECT * FROM  UserName")
+        );
+        return waiters;
+    }
+ }
+// public  void addUser(String name){
+//     connection.withHandle(handle -> handle.createQuery("INSERT INTO UserName (name) values (?)")
+//             .bind(name,1)
+//     );
+
+//        try {
 //            PreparedStatement ps = connection.prepareStatement("INSERT INTO UserName (name) values (?)");
 //            ps.setString(1, name);
 //            ps.execute();
@@ -31,10 +45,6 @@ public class Waiters {
 //            throwables.printStackTrace();
 //        }
 
-    }
-    public Map<String, Integer> getUser() {
-        connection.useHandle(handle -> handle.execute("SELECT * FROM  UserName")
-        );
 //        try {
 //            PreparedStatement ps = connection.prepareStatement("SELECT * FROM  UserName");
 //            ResultSet rs =ps.executeQuery();
@@ -47,17 +57,4 @@ public class Waiters {
 //        } catch (SQLException throwables) {
 //            throwables.printStackTrace();
 //        }
-
-        return waiters;
-    }
-
-
-
-// public  void addUser(String name){
-//     connection.withHandle(handle -> handle.createQuery("INSERT INTO UserName (name) values (?)")
-//             .bind(name,1)
-//     );
-
- }
-
 

@@ -1,62 +1,58 @@
-package waiter;
-
-import org.jdbi.v3.core.Jdbi;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
-
-public class Login {
-    public String username;
-    public String password;
-
-    public Login(String username, String password) throws URISyntaxException, SQLException {
-    }
-
-    static Jdbi getDatabaseConnection(String defualtJdbcUrl) throws URISyntaxException, SQLException {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        String database_url = processBuilder.environment().get("DATABASE_URL");
-        String local = processBuilder.environment().get("LOCAL");
-        if (local == null && database_url != null) {
-
-            URI uri = new URI(database_url);
-            String[] hostParts = uri.getUserInfo().split(":");
-            String username = hostParts[0];
-            String password = hostParts[1];
-            String host = uri.getHost();
-
-            int port = uri.getPort();
-
-            String path = uri.getPath();
-            String url = String.format("jdbc:postgresql://%s:%s%s", host, port, path);
-
-            return Jdbi.create(url, username, password);
-
-        } else if (local != null && database_url != null) {
-            return Jdbi.create(database_url);
-        }
-
-        return Jdbi.create(defualtJdbcUrl);
-
-    }
-
-    Jdbi jdbi = getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
-
-
-    public String getPassword() {
-        jdbi.withHandle(handle -> handle.createUpdate(""));
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-}
+//package waiter;
+//
+//import org.jdbi.v3.core.Jdbi;
+//
+//import java.net.URI;
+//import java.net.URISyntaxException;
+//import java.sql.SQLException;
+//
+//public class Login {
+//    private String username;
+//    private String password;
+//
+//    public static void main(String[] args) {
+//
+//        new Login(Jdbi.create("jdbc:postgresql://localhost/waiters?user=codex&password=1234")).checkUserDoesExists("king");
+//    }
+//public Login(){};
+//
+//    private Jdbi jdbi;
+//    public Login(String username, String password) throws URISyntaxException, SQLException {
+//    }
+//
+//    public Login(Jdbi jdbi) {
+//        this.jdbi = jdbi;
+//    }
+//
+//    public String getPassword() {
+//        jdbi.withHandle(handle -> handle.createUpdate(""));
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+//    public void checkUserDoesExists(String username){
+//
+////Wanted to check if the user is has entered a correct username and compare with the correct password if one of them is incorrect the user wont be able to logIn on the app
+//        System.out.println(
+//                jdbi.withHandle(handle -> handle.createQuery("SELECT * from UserName WHERE firstName = ?"))
+//                        .bind(0, username)
+//                        .mapTo(String.class)
+//                        .list()
+//                        .size() >= 1
+//        );
+//
+//    }
+//
+//
+//}

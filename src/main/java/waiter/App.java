@@ -25,8 +25,6 @@ import static spark.Spark.*;
 public class App {
 private static DaysDao daysDao;
 
-
-
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
@@ -34,8 +32,6 @@ private static DaysDao daysDao;
         }
         return 4567;
     }
-
-
     static Jdbi getDatabaseConnection(String defualtJdbcUrl) throws URISyntaxException, SQLException {
         ProcessBuilder processBuilder = new ProcessBuilder();
         String database_url = processBuilder.environment().get("DATABASE_URL");
@@ -74,7 +70,7 @@ private static DaysDao daysDao;
             port(getHerokuAssignedPort());
             Waiters waiters = new Waiters(jdbi);
             Days days = new Days();
-            Login login = new Login("cairo","king");
+            //Login login = new Login(jdbi);
             Admin admin = new Admin(jdbi);
             get("/", (req, res) -> {
 
@@ -93,73 +89,96 @@ private static DaysDao daysDao;
 
                 Register register = new Register();
 
-//                register.setFirstName(firstName);
-//                register.setLastName(lastName);
-//                register.setPassword(Password);
-//                register.setConfirmPassword(ConfirmPassword);
+                register.setFirstName(firstName);
+                register.setLastName(lastName);
+                register.setPassword(Password);
+                register.setConfirmPassword(ConfirmPassword);
 
                 register.getFirstName();
                 register.getLastname();
                 register.getPassword();
                 register.getConfirmPassword();
 
-//                jdbi.useHandle(h -> {
-//                    h.execute("insert into UserName (firstName, lastName,Password,ConfirmPassword) values (?, ?,?,?)",
-//                            firstName,
-//                            lastName,
-//                            Password,
-//                            ConfirmPassword
-//                    );
-//                    if (Password == null) {
-//                        res.body("enter password");
-//                    } else if (Password != ConfirmPassword) {
-//                        res.body("password don't match");
-//                    }
-//                });
+                jdbi.useHandle(h -> {
+                    h.execute("insert into UserName (firstName, lastName,Password,ConfirmPassword) values (?, ?,?,?)",
+                            firstName,
+                            lastName,
+                            Password,
+                            ConfirmPassword
+                    );
+                    if (Password == null) {
+                        res.body("enter password");
+                    } else if (!Password.equals(ConfirmPassword)) {
+                        res.body("password don't match");
+                    }
+                });
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "register.handlebars");
             }, new HandlebarsTemplateEngine());
 
             get("/login", (req, res) -> {
-                System.out.println("check");
+//                System.out.println("check");
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
-            get("/signIn", (req, res) -> {
-                login.getPassword();
-                login.getUsername();
+//            get("/signIn", (req, res) -> {
+//                String username = req.queryParams("username");
+//                String password = req.queryParams("password");
+//
+//                Login userLogin = new Login();
+//
+//                userLogin.setUsername(username);
+//                userLogin.setPassword(password);
+//
+//                userLogin.getUsername();
+//                userLogin.getPassword();
+//
+//                jdbi.useHandle(h -> {
+//                    h.execute("insert into login (username,Password) values (?,?)",
+//                            username,
+//                            password
+//                    );
+////                    if (username == null) {
+////                        res.body("enter password");
+////                    } else if (!password.equals(password) ) {
+////                        res.body("password don't match");
+////                    }
+//                });
 
-
-                Map<String, String> dataMap = new HashMap<>();
-                return new ModelAndView(dataMap, "waiters.handlebars");
-            }, new HandlebarsTemplateEngine());
+//                Map<String, String> dataMap = new HashMap<>();
+//                return new ModelAndView(dataMap, "waiters.handlebars");
+//            }, new HandlebarsTemplateEngine());
 
             get("/waiters/:username", (req, res) -> {
-                waiters.setUser(req.params("username"));
-                waiters.getUser();
+                String username = req.queryParams("username");
 
+                Waiters waiter = new Waiters();
 
+                waiter.setUser(username);
+                waiter.getUser();
+
+                jdbi.useHandle(h -> {
+                    h.execute("insert into users (username) values (?)",
+                            username
+                    );
+                });
                 Map<String, String> dataMap = new HashMap<>();
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
             post("/waiters/:username", (req, res) -> {
-// This is to get the details for the user to be able  to login and select working days
+// This is to get the details for the user to be able  to login & select working days
                 Map<String, String> dataMap = new HashMap<>();
                 String username = req.queryParams("username");
-                String password = req.queryParams("password");
+              //  String password = req.queryParams("password");
 
                 jdbi.useHandle(h -> {
-                    h.execute("insert into login (name, password) values (?, ?)",
-                            username,
-                            password
+                    h.execute("insert into users (username) values (?)",
+                            username
+
                     );
-                    if (username == null) {
-                        res.body("enter username");
-                    } else if (password == null) {
-                        res.body("enter password");
-                    }
+//
                 });
                 //  res.redirect("/");
 
@@ -174,7 +193,7 @@ private static DaysDao daysDao;
                 return new ModelAndView(dataMap, "admin.handlebars");
             }, new HandlebarsTemplateEngine());
 
-            get("/waiter.Login", (req, res) -> {
+//            get("/waiter.Login", (req, res) -> {
 //                List<Login> people = jdbi.withHandle((h) -> {
 //                    List<Login> userLogin = h.createQuery("select username, password from login")
 //                            .mapToBean(Login.class)
@@ -183,18 +202,18 @@ private static DaysDao daysDao;
 //                });
                 Map<String, Object> map = new HashMap<>();
                 List<Day> daysList = daysDao.getDays();
-
-                System.out.println(daysList);
-
+//                System.out.println(daysList);
                 map.put("daysList", daysList);
+//
+//                map.put("username",people);
 //                map.put("password", people);
 
 
                 System.out.println(map);
 //                res.redirect("/");
-                return new ModelAndView(map, "waiters.handlebars");
-
-            }, new HandlebarsTemplateEngine());
+//                return new ModelAndView(map, "waiters.handlebars");
+//
+//            }, new HandlebarsTemplateEngine());
 
 
 //            get("/add_shift", (req, res) -> {
@@ -211,10 +230,10 @@ private static DaysDao daysDao;
 //            }, new HandlebarsTemplateEngine());
 
 //
-//            post("/register", (req, res) -> {
-//                res.redirect("/");
-//                return null;
-//            });
+            post("/register", (req, res) -> {
+                res.redirect("/");
+                return null;
+            });
 
 //            post("/add_shift", (req, res) -> {
 //                res.redirect("/add_shift");

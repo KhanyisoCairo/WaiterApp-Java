@@ -10,16 +10,16 @@ create table users(
 first_name text,
 username text
 );
-        insert into days (days_in_a_week) values('Monday');
-        insert into days (days_in_a_week) values('Tuesday');
-        insert into days (days_in_a_week) values('Wednesday');
-        insert into days (days_in_a_week) values('Thursday');
-        insert into days (days_in_a_week) values('Friday');
-        insert into days (days_in_a_week) values('Saturday');
-        insert into days (days_in_a_week) values('Sunday');
+        insert into days (day_name) values('Monday');
+        insert into days (day_name) values('Tuesday');
+        insert into days (day_name) values('Wednesday');
+        insert into days (day_name) values('Thursday');
+        insert into days (day_name) values('Friday');
+        insert into days (day_name) values('Saturday');
+        insert into days (day_name) values('Sunday');
 
 
-        insert into username (name, counter) values ('Cairo', 2);
+        insert into username (firstName, id) values ('Cairo', 2);
 
         insert into schedule (user_id, day_id) values(1, 3);
 

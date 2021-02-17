@@ -17,7 +17,7 @@ public class Days implements Day, Person {
     Jdbi jdbi;
     public void setDaysOfWeek(String daysOfWeek) throws URISyntaxException, SQLException {
         jdbi = DataBaseConnection.getDatabaseConnection("jdbc:postgresql://localhost/waiters?user=codex&password=1234");
-        jdbi.withHandle(handle -> handle.createQuery("INSERT INTO waiter.days.Days (Days_In_A_Week) values (?)")
+        jdbi.withHandle(handle -> handle.createQuery("INSERT INTO waiter.days.Days (day_name) values (?)")
                 .bind(daysOfWeek, "Monday")
                 .bind(daysOfWeek, "Tuesday")
                 .bind(daysOfWeek, "Wednesday")
