@@ -29,7 +29,7 @@
                 <version>2.0.13</version>
                 <configuration>
                     <processTypes>
-                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* waiter.App</web>
+                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* webapp.App</web>
                     </processTypes>
                 </configuration>
             </plugin>

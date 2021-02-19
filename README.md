@@ -4,19 +4,19 @@
 
 ```java
 
-interface waiter.interfaces.Person {
+interface dao.Person {
     String fName, lName, username, id, email, password;
-    List<waiter.interfaces.Day> days;
+    List<dao.Day> days;
 }
 
 
-interface waiter.interfaces.Day {
+interface dao.Day {
     String day;
-    List<waiter.interfaces.Person> waiters;
+    List<dao.Person> waiters;
 }
 
 
-interface waiter.interfaces.Schedule {
+interface dao.Schedule {
     List<waiter.days.Days> weekday;
 
 }
