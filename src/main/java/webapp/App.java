@@ -20,7 +20,7 @@ import static spark.Spark.*;
 
 
 public class App {
-    static int getHerokuAssignedPort() {
+    public static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
             return Integer.parseInt(processBuilder.environment().get("PORT"));
@@ -28,7 +28,7 @@ public class App {
         return 4567;
     }
 
-    static Jdbi getDatabaseConnection() throws URISyntaxException {
+    public static Jdbi getDatabaseConnection() throws URISyntaxException {
         ProcessBuilder processBuilder = new ProcessBuilder();
         String database_url = processBuilder.environment().get("DATABASE_URL");
         String local = processBuilder.environment().get("LOCAL");

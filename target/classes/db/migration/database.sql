@@ -25,3 +25,6 @@ insert into days (name) values('Thursday');
 insert into days (name) values('Friday');
 insert into days (name) values('Saturday');
 
+
+
+select from  waiters.username from waiters inner join shifts on waiter.id = shifts.day_id inner join days on name.id = shifts.day_id where name = 'monday';

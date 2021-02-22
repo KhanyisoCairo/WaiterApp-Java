@@ -9,4 +9,5 @@ public interface Admin {
     List<Waiter> getListOfWaiters();
     List<Shift> getAllShifts();
     boolean clearShifts();
+
 }

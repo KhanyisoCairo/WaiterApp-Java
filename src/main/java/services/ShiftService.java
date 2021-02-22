@@ -21,7 +21,7 @@ public class ShiftService implements Shifts {
     }
 
     @Override
-    public List<Shift> getShiftsForUserAllUsers() {
+    public List<Shift> getShiftsForAllUsers() {
         return this.queries.getShiftForAllUsers();
     }
 

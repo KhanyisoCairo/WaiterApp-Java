@@ -8,7 +8,7 @@ import java.util.*;
 public interface Shifts {
     List<Shift> getShiftForUser(Long id);
 
-    List<Shift> getShiftsForUserAllUsers();
+    List<Shift> getShiftsForAllUsers();
 
     List<Day> getAllDays();
 }

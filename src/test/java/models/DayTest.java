@@ -1,33 +1,30 @@
 package models;
 
+import dao.Shifts;
+import org.jdbi.v3.core.Jdbi;
 import org.junit.jupiter.api.Test;
+import services.ShiftQueries;
+import services.ShiftService;
+
+import java.net.URISyntaxException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static webapp.App.getDatabaseConnection;
 
 
 public class DayTest {
+    private Jdbi jdbi;
+
     @Test
-    void shouldReturnNameAndId()
+    void shouldReturnDayName() throws URISyntaxException
     {
-        Day day  = new Day();
+        jdbi = getDatabaseConnection();
+        Shifts waiterService = new ShiftService(new ShiftQueries(jdbi));
 
-        day.setId(1);
-        day.setId(2);
-        day.setId(3);
-        day.setId(4);
-        day.setId(5);
-        day.setId(6);
-        day.setId(7);
+        List<Day> day = waiterService.getAllDays();
 
-        day.setName("Sunday");
-        day.setName("Monday");
-        day.setName("Tuesday");
-        day.setName("Wednesday");
-        day.setName("Thursday");
-        day.setName("Friday");
-        day.setName("Saturday");
+        assertEquals(waiterService.getAllDays().get(3).getName(), "Wednesday");
 
-        assertEquals(day.getName(),"Saturday");
-        assertEquals(day.getId(),7);
     }
 }

@@ -4,7 +4,19 @@ import org.jdbi.v3.core.Jdbi;
 
 public class Shift {
     private Long id;
+    private String waiterName;
     private String dayName;
+
+
+    public String getWaiterName() {
+        return waiterName;
+    }
+
+    public void setWaiterName(String waiterName) {
+        this.waiterName = waiterName;
+    }
+
+
 
 //    public Day(){}
 //
