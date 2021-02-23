@@ -11,4 +11,6 @@ public interface Shifts {
     List<Shift> getShiftsForAllUsers();
 
     List<Day> getAllDays();
+
+//    List<Shift> getShiftForUser();
 }

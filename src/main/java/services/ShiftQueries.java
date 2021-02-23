@@ -16,7 +16,7 @@ public class ShiftQueries {
 
     public List<Shift> getShiftForUser(Long id) {
         jdbi.open();
-        return new ArrayList<Shift>();
+        return jdbi.withHandle(handle -> handle.createQuery("Select shifts.id as id, waiters.username as waiter_name, days.name as day_name from shifts join days on shifts.day_id = days.id join waiters on shifts.waiter_id = waiters.id").mapToBean(Shift.class).list());
     }
 
     public List<Day> getAllDays() {

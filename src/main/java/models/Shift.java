@@ -1,12 +1,19 @@
 package models;
 
-import org.jdbi.v3.core.Jdbi;
+import dao.Shifts;
+import services.ShiftQueries;
+
+import java.util.List;
 
 public class Shift {
     private Long id;
     private String waiterName;
     private String dayName;
-
+//    private ShiftQueries queries;
+//
+//    public  ShiftService(ShiftQueries queries) {
+//        this.queries = queries;
+//    }
 
     public String getWaiterName() {
         return waiterName;
@@ -16,14 +23,6 @@ public class Shift {
         this.waiterName = waiterName;
     }
 
-
-
-//    public Day(){}
-//
-//    public Day(Long id, String dayName) {
-//        this.id = id;
-//        this.dayName = dayName;
-//    }
 
     public Long getId() {
         return id;
@@ -48,4 +47,25 @@ public class Shift {
                 ", dayName='" + dayName + '\'' +
                 '}';
     }
+
+//    @Override
+//    public List<Shift> getShiftForUser(Long id) {
+//        return this.queries.getShiftForUser(id);
+//    }
+//
+//    @Override
+//    public List<Shift> getShiftsForAllUsers() {
+//        return this.queries.getShiftForAllUsers();
+//    }
+//
+//    @Override
+//    public List<Day> getAllDays() {
+//        return this.queries.getAllDays();
+//    }
 }
+//    public Day(){}
+//
+//    public Day(Long id, String dayName) {
+//        this.id = id;
+//        this.dayName = dayName;
+//    }
