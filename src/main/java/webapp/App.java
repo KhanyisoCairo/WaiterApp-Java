@@ -1,12 +1,13 @@
 package webapp;
 
 import dao.Admin;
-//import dao.Shifts;
+
+import dao.Shifts;
 import org.jdbi.v3.core.Jdbi;
 import services.AdminQueries;
 import services.AdminService;
-//import services.ShiftQueries;
-//import services.ShiftService;
+import services.ShiftQueries;
+import services.ShiftService;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -62,7 +63,7 @@ public class App {
             Jdbi jdbi = getDatabaseConnection();
             port(getHerokuAssignedPort());
             Admin adminServices = new AdminService(new AdminQueries(jdbi));
-//            Shifts waiterService = new ShiftService(new ShiftQueries(jdbi));
+            Shifts waiterService = new ShiftService(new ShiftQueries(jdbi));
 
             get("/", (req, res) -> {
                 Map<String, String> dataMap = new HashMap<>();
@@ -71,15 +72,19 @@ public class App {
 
             get("/waiters/:username", (req, res) -> {
                 Map<String, String> dataMap = new HashMap<>();
+                adminServices.getAllShifts();
+                adminServices.getListOfWaiters();
+
 
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
             post("/waiters/:username", (req, res) -> {
                 Map<String, String> dataMap = new HashMap<>();
+                waiterService.getAllDays();
+                waiterService.getShiftsForAllUsers();
 
-
-                String username = req.queryParams("username");
+//                String username = req.queryParams("username");
 
 
                 return new ModelAndView(dataMap, "waiters.handlebars");
@@ -87,6 +92,9 @@ public class App {
 
             post("/days", (req, res) -> {
                 Map<String, Object> dataMap = new HashMap<>();
+                adminServices.getAllShifts();
+                adminServices.getListOfWaiters();
+                waiterService.getAllDays();
                 return new ModelAndView(dataMap, "waiters.handlebars");
             }, new HandlebarsTemplateEngine());
 
